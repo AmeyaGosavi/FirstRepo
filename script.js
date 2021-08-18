@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 
 	var country = "India";
 	var continent = "Asia";
