@@ -1,0 +1,116 @@
+	CREATE TABLE owners(
+		id SERIAL PRIMARY KEY,
+		first_name VARCHAR (30),
+		last_name VARCHAR (30),
+		city VARCHAR (30),
+		owner_state CHAR(2)
+	);
+	
+	SELECT * FROM owners;
+	
+	CREATE TABLE pets(
+		pet_id SERIAL PRIMARY KEY,
+		species VARCHAR (30),
+		fullname VARCHAR (30),
+		age INT,
+		owner_id INT REFERENCES owners(id)
+	);
+	
+	SELECT * FROM pets;
+
+	ALTER TABLE owners
+	ADD COLUMN email VARCHAR(50) UNIQUE;
+	
+	ALTER TABLE owners
+	ALTER COLUMN last_name TYPE VARCHAR(50);
+
+	INSERT INTO owners (first_name, last_name, city, owner_state, email)
+	VALUES ('Samuel','Smith','Boston','MA','samsmith@gmail.com'),
+	('Emma','Johnson','Seattle','WA','emjohnson@gmail.com'),
+	('John','Oliver','New York','NY','johnoliver@gmail.com'),
+	('Olivia','Brown','San Francisco','CA','oliviabrown@gmail.com'),
+	('Simon','Smith','Dallas','TX','sismith@gmail.com'),
+	(null,'Maxwell',null,'CA','lordmaxwell@gmail.com');
+
+	
+	INSERT INTO pets (species, fullname, age, owner_id)
+	VALUES ('Dog','Rex',6,1),
+	('Rabbit','Fluffy',2,5),
+	('Cat','Tom',8,2),
+	('Mouse','Jerry',2,2),
+	('Dog','Biggles',4,2),
+	('Tortoise','Squirtle',42,3);
+
+	UPDATE pets
+	SET age = 3
+	WHERE fullname = 'Fluffy';
+
+	DELETE FROM owners
+	WHERE last_name = 'Maxwell';
+
+	SELECT movie_name,release_date FROM movies; 
+	
+	SELECT first_name,last_name,nationality  FROM
+	directors WHERE nationality = 'American';
+	
+	SELECT * FROM actors 
+	WHERE gender = 'M' AND date_of_birth > '1970-01-01'
+	
+	SELECT movie_name FROM movies 
+	WHERE movie_length > 90
+
+	SELECT movie_name,movie_lang FROM
+	movies WHERE movie_lang IN ('English','Spanish','Korean');
+	
+	SELECT first_name,last_name FROM
+	actors WHERE last_name LIKE 'M%' AND
+	date_of_birth BETWEEN '1940-01-01' AND '1969-12-31';
+	
+	SELECT first_name,last_name FROM directors
+	WHERE nationality IN ('British','French','German') AND
+	date_of_birth BETWEEN '1950-01-01' AND '1980-12-31';
+
+	SELECT * FROM directors
+	WHERE nationality = 'American'
+	ORDER BY date_of_birth ASC;
+	
+	SELECT DISTINCT nationality 
+	FROM directors ORDER BY nationality;
+	
+	SELECT first_name,last_name,date_of_birth
+	FROM actors WHERE gender= 'F' 
+	ORDER BY date_of_birth DESC
+	FETCH FIRST 10 ROW ONLY;
+
+
+	SELECT COUNT(*) FROM actors 
+	WHERE date_of_birth > '1970-01-01';
+	
+	SELECT  MIN(domestic_takings) FROM movie_revenues;
+	SELECT  MAX(domestic_takings) FROM movie_revenues;
+	
+	SELECT SUM(movie_length) FROM movies
+	WHERE age_certificate = '15';
+	
+	SELECT COUNT(*) FROM directors
+	WHERE nationality = 'Japanese';
+	
+	SELECT AVG(movie_length) FROM movies 
+	WHERE movie_lang='Chinese';
+
+	SELECT nationality, COUNT(nationality) FROM directors
+	GROUP BY nationality;
+	
+	SELECT movie_lang,age_certificate,SUM(movie_length)
+	FROM movies GROUP BY movie_lang, age_certificate;
+	
+	SELECT movie_lang, SUM(movie_length) FROM movies
+	GROUP BY movie_lang
+	HAVING  SUM(movie_length) > 500
+
+	owners & pets have one to many relationships
+	owners & address have one to many relationships
+
+	playlist & songs have one to many
+	user & playlist have many to many
+	song & playlist have many to many
