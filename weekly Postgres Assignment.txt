@@ -1,0 +1,246 @@
+CREATE TABLE users(
+		user_id SERIAL PRIMARY KEY,
+		first_name VARCHAR(20),
+		last_name VARCHAR(20),
+		email_address VARCHAR(50) UNIQUE NOT NULL,
+		gender CHAR(1),
+		profile_pic VARCHAR(100),
+		is_delete BOOLEAN
+	);
+	SELECT * FROM users;
+	
+	CREATE TABLE project (
+		project_id SERIAL PRIMARY KEY,
+		project_name VARCHAR(100) NOT NULL,
+		project_description VARCHAR(500),
+		project_image VARCHAR(100),
+		created_at TIMESTAMP NOT NULL,
+		updated_at TIMESTAMP NOT NULL,
+		created_by INT REFERENCES users(user_id),
+		updated_by INT REFERENCES users(user_id),
+		is_delete BOOLEAN
+	);
+	
+	SELECT * FROM project;
+	
+	CREATE TABLE modules(
+		module_id SERIAL PRIMARY KEY,
+		module_name VARCHAR(100),
+		module_description VARCHAR(500),
+		project_id INT REFERENCES project(project_id), 
+		created_at TIMESTAMP NOT NULL,
+		updated_at TIMESTAMP NOT NULL,
+		created_by INT REFERENCES users(user_id),
+		updated_by INT REFERENCES users(user_id),
+		is_delete BOOLEAN
+	);
+	
+	SELECT * FROM modules;
+	
+	CREATE TABLE user_address(
+		address_id SERIAL PRIMARY KEY,
+		address VARCHAR(500),
+		county VARCHAR(100),
+		user_state VARCHAR(100),
+		city VARCHAR(100),
+		zip INT,
+		created_at TIMESTAMP NOT NULL,
+		updated_at TIMESTAMP NOT NULL,
+		created_by INT REFERENCES users(user_id),
+		updated_by INT REFERENCES users(user_id),
+		is_delete BOOLEAN
+	);
+	SELECT * FROM user_address;
+	
+	CREATE TYPE api_method AS ENUM('PUT','POST','GET','DELETE');
+		
+	CREATE TABLE api (
+		api_id SERIAL PRIMARY KEY,
+		title VARCHAR(100),
+		description VARCHAR(500),
+		request VARCHAR(100),
+		response VARCHAR(500),
+		apis_method api_method,
+		module_id INT REFERENCES modules(module_id),
+		created_at TIMESTAMP NOT NULL,
+		updated_at TIMESTAMP NOT NULL,
+		created_by INT REFERENCES users(user_id),
+		updated_by INT REFERENCES users(user_id),
+		is_delete BOOLEAN
+	)
+
+	CREATE TABLE project_user(
+		user_id INT REFERENCES users(user_id),
+		project_id INT REFERENCES project(project_id),
+		PRIMARY KEY(user_id,project_id)
+	);
+------------------------------------------------------------------------------------------------------------------------------------------
+	2->INSERT INTO users(first_name,last_name,email_address,gender,profile_pic)
+	VALUES('Ameya','Gosavi','ameyagosavi@gmail.com','M','ameya.jpg');
+	INSERT INTO users(first_name,last_name,email_address,gender,profile_pic)
+	VALUES('Ameya','Gosavi','ameyagosavi@gmail.com','M','ameya.jpg');
+	INSERT INTO users(first_name,last_name,email_address,gender,profile_pic)
+	VALUES('Swanand','Kulkarni','swakul@gmail.com','M','swanand.jpg');
+	INSERT INTO users(first_name,last_name,email_address,gender,profile_pic)
+	VALUES('Chinmay','Gorhe','chinmaygorhe@gmail.com','M','chinmay.jpg');
+	INSERT INTO users(first_name,last_name,email_address,gender,profile_pic)
+	VALUES ('Hussain','Rounak','hussainr@gmail.com','M','hussain.jpg');
+	INSERT INTO users(first_name,last_name,email_address,gender,profile_pic)
+	VALUES ('Krishna','Ramchandani','krishna@gmail.com','M','krishna.jpg');
+	INSERT INTO users(first_name,last_name,email_address,gender,profile_pic)
+	VALUES ('Pratik','Misal','PratikMisal@gmail.com','M','Pratik.jpg');
+	INSERT INTO users(first_name,last_name,email_address,gender,profile_pic)
+	VALUES ('Aniket','Warad','aniketwarad@gmail.com','M','aniket.jpg');
+	INSERT INTO users(first_name,last_name,email_address,gender,profile_pic)
+	VALUES ('Amitesh','Kumar','amitesh@gmail.com','M','amitesh.jpg');
+	INSERT INTO users(first_name,last_name,email_address,gender,profile_pic)
+	VALUES ('Riya','Viz','riyaviz@gmail.com','F','riya.jpg');
+	INSERT INTO users(first_name,last_name,email_address,gender,profile_pic)
+	VALUES ('Prajakta','Sutar','Prajaktas@gmail.com','F','Prajakta.jpg');
+	INSERT INTO users(first_name,last_name,email_address,gender,profile_pic)
+	VALUES ('Pallavi','Jain','Pallavi@gmail.com','F','Pallavi.jpg');
+	INSERT INTO users(first_name,last_name,email_address,gender,profile_pic)
+	VALUES ('Kanchan','Kumari','kanchank@gmail.com','F','kanchan.jpg'),
+	('Captain','America','capamerica@gmail.com','M','captain.jpg'),
+	('Black','Panther','bpanther@gmail.com','M','bpanther.jpg');
+
+
+	2->INSERT INTO project(project_name, project_description, project_image, created_by, updated_by) 
+	VALUES ('project 1','this is description of project 1','project1.jpg',1,1),
+	('project 2','this is description of project 2','project2.jpg',1,1),
+	('project 3','this is description of project 3','project3.jpg',1,1),
+	('project 4','this is description of project 4','project4.jpg',1,1),
+	('project 5','this is description of project 5','project5.jpg',1,1),
+	('project 6','this is description of project 6','project6.jpg',1,1),
+	('project 7','this is description of project 7','project7.jpg',1,1),
+	('project 8','this is description of project 8','project8.jpg',1,1),
+	('project 9','this is description of project 9','project9.jpg',1,1),
+	('project 10','this is description of project 10','project10.jpg',1,1);
+
+
+	2->INSERT INTO modules (module_name,module_description,project_id,created_by,updated_by) 
+	VALUES ('module1','This is module 1 for project 1',1,1,1),
+	('module2','This is module 2 for project 2',2,1,1),
+	('module3','This is module 3 for project 2',2,1,1),
+	('module4','This is module 4 for project 3',3,1,1),
+	('module5','This is module 5 for project 3',3,1,1),
+	('module6','This is module 6 for project 3',3,1,1),
+	('module7','This is module 7 for project 4',4,1,1),
+	('module8','This is module 8 for project 5',5,1,1),
+	('module9','This is module 9 for project 5',5,1,1),
+	('module10','This is module 10 for project 6',6,1,1),
+	('module11','This is module 11 for project 6',6,1,1),
+	('module12','This is module 12 for project 6',6,1,1),
+	('module13','This is module 13 for project 7',7,1,1),
+	('module14','This is module 14 for project 8',8,1,1),
+	('module15','This is module 15 for project 8',8,1,1),
+	('module16','This is module 16 for project 9',9,1,1),
+	('module17','This is module 17 for project 9',9,1,1),
+	('module18','This is module 18 for project 9',9,1,1),
+	('module19','This is module 16 for project 10',10,1,1);
+	
+
+	2->INSERT INTO user_address(address,county,user_state,city,zip,user_id)
+	VALUES('G2 Durwankur Appt. Gujar Lane','India','Maharashtra','Ahmednagar',414001,1),
+	('abc','India','Maharashtra','pune',411002,2),
+	('def','India','Maharashtra','Jalgaon',412005,3),
+	('jkl','India','Maharashtra','pune',411002,4),
+	('mno','India','Maharashtra','Nashik',422004,5),
+	('chandan nagar','India','Maharashtra','Pune',411014,6),
+	('ghi','India','Maharashtra','Satara',412103,7),
+	('patna','India','Bihar','Patna',800005,8),
+	('pqr','India','delhi','delhi',110001,9),
+	('stu','India','Maharashtra','Satara',412103,10),
+	('bavdhan','India','Maharashtra','Pune',411008,11),
+	('Kothrud','India','Maharashtra','Pune',411038,12),
+	('vwx','United States Of America','New York','New York',10001,13),
+	('yza','Wakanda','','',74521,14);
+
+
+	2->INSERT INTO api (title,description,request,response,apis_method,module_id)
+	VALUES ('api1','api for module 1','getdata','recieved data','GET',1),	
+	('api2','api for module 2','postdata','post data','POST',2),
+	('api3','api for module 3','updatedata','update data','PUT',3),
+	('api4','api for module 4','deletedata','delete data','DELETE',4),
+	('api5','api for module 5','getdata','recieved data','GET',5),	
+	('api6','api for module 6','postdata','post data','POST',6),
+	('api7','api for module 7','updatedata','update data','PUT',7),
+	('api8','api for module 8','deletedata','delete data','DELETE',8),
+	('api9','api for module 9','getdata','recieved data','GET',9),	
+	('api10','api for module 10','postdata','post data','POST',10),
+	('api11','api for module 11','updatedata','update data','PUT',11),
+	('api12','api for module 12','deletedata','delete data','DELETE',12),
+	('api13','api for module 13','getdata','recieved data','GET',13),	
+	('api14','api for module 14','postdata','post data','POST',14),
+	('api15','api for module 15','updatedata','update data','PUT',15),
+	('api16','api for module 16','deletedata','delete data','DELETE',16),
+	('api17','api for module 17','getdata','recieved data','GET',18),	
+	('api18','api for module 18','postdata','post data','POST',17),
+	('api19','api for module 19','updatedata','update data','PUT',19);
+	('api20','api for module 1','postdata','post data','POST',1),	
+	('api21','api for module 2','updatedata','update data','PUT',2),
+	('api22','api for module 3','deletedata','delete data','DELETE',3);
+
+	2->INSERT INTO project_user(user_id,project_id)
+	VALUES (1,1),(2,2),(2,3),(3,1),(3,2),(3,3),(4,4),
+	(5,6),(5,7),(6,4),(6,5),(6,6),(7,7),(8,7),(8,9),(9,7),
+	(9,8),(9,9),(10,10),(11,10),(11,1),(12,10),(12,1),
+	(12,2);
+
+	6->SELECT * FROM project;
+	7->SELECT * FROM modules;
+	8->SELECT * FROM api;
+	9->SELECT * FROM users;
+	10->SELECT * FROM user_address;
+
+	11->SELECT p.project_name,m.module_name,m.module_description,
+	a.title,a.description FROM project p JOIN modules m
+	ON p.project_id = m.project_id JOIN api a ON a.module_id = m.module_id;
+
+	12->SELECT p.project_name,m.module_name,m.module_description,
+	a.title,a.description FROM project p JOIN modules m
+	ON p.project_id = m.project_id JOIN api a ON a.module_id = m.module_id;
+
+	13->SELECT a.module_id, COUNT(*) FROM api a JOIN modules m
+	ON a.module_id = m.module_id
+	GROUP BY a.module_id
+	ORDER BY module_id, COUNT(*) DESC;
+
+	14->SELECT p.project_id, COUNT(*) AS api_count FROM project p JOIN modules m
+	ON p.project_id = m.project_id JOIN api a
+	ON a.module_id = m.module_id
+	GROUP BY p.project_id
+	ORDER BY project_id, api_count DESC;
+	
+	15->SELECT CONCAT_WS(' ',u.first_name,u.last_name) AS full_name, ua.address,ua.city,ua.user_state FROM users AS u
+	JOIN user_address AS ua ON u.user_id = ua.user_id;
+
+	16->SELECT p.project_name,CONCAT_WS(' ',u.first_name,u.last_name) 
+	FROM project p JOIN project_user pu ON p.project_id = pu.project_id
+	JOIN users u ON pu.user_id = u.user_id;
+	
+	17->SELECT * FROM project
+	WHERE project_name LIKE '%project 2%';
+
+	19->SELECT CONCAT_WS(' ',u.first_name,u.last_name) AS full_name FROM users u
+	JOIN user_address ua ON u.user_id = ua.user_id
+	WHERE ua.county = 'India';
+
+	20->SELECT CONCAT_WS(' ',u.first_name,u.last_name) AS full_name, ua.zip FROM users u
+	JOIN user_address ua ON u.user_id = ua.user_id
+	WHERE ua.zip = 414001;
+
+	21->SELECT * FROM api WHERE apis_method = 'POST';
+	22->SELECT * FROM api WHERE apis_method = 'PUT';
+	23->SELECT * FROM api WHERE apis_method = 'DELETE';
+	24->SELECT * FROM api WHERE apis_method = 'GET';
+
+	25->SELECT m.module_name,m.module_description,
+	a.title,a.description FROM modules m
+	JOIN api a ON a.module_id = m.module_id
+	WHERE module_name = 'module1';
+
+	26->	SELECT p.project_name,m.module_name,m.module_description
+	FROM project p JOIN modules m
+	ON p.project_id = m.project_id
+	WHERE project_name = 'project 3';
